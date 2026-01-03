@@ -33,17 +33,6 @@ function loadComponent(elementId, filePath) {
             }
             
             if (elementId === 'share-comments-container') {
-                // Load AddToAny script and initialize
-                const script = document.createElement('script');
-                script.src = 'https://static.addtoany.com/menu/page.js';
-                script.async = true;
-                script.onload = function() {
-                    if (window.a2a) {
-                        window.a2a.init_all();
-                    }
-                };
-                document.head.appendChild(script);
-                
                 // Load Disqus
                 setTimeout(function() {
                     const disqusScript = document.createElement('script');
