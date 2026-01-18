@@ -4,13 +4,25 @@ function loadComponent(elementId, filePath) {
     fetch(filePath)
         .then(response => {
             console.log('Response status:', response.status);
+            // Check if the response is successful (status 200-299)
+            if (!response.ok) {
+                console.warn(`Component not found: ${filePath} (${response.status})`);
+                return ''; // Return empty string for missing components
+            }
             return response.text();
         })
         .then(data => {
+            // Only inject if we have data
+            if (!data) {
+                console.log(`Skipping empty component: ${elementId}`);
+                return;
+            }
+
             console.log('Data loaded for:', elementId);
             // Fix relative paths if we're in a subfolder
             if (window.location.pathname.includes('/posts/')) {
                 data = data.replace(/href="index\.html"/g, 'href="../index.html"');
+                data = data.replace(/href="about\.html"/g, 'href="../about.html"');
                 data = data.replace(/href="blog-posts\.html"/g, 'href="../blog-posts.html"');
                 data = data.replace(/href="posts\//g, 'href="'); // Fix post links to prevent doubling
                 data = data.replace(/src="images\//g, 'src="../images/');
@@ -27,14 +39,11 @@ function loadComponent(elementId, filePath) {
                             // Get saved state from localStorage
                             var sidebarState = localStorage.getItem('sidebarState');
 
-                            // On mobile/tablet (<=large), default to inactive unless user explicitly opened it
+                            // On mobile/tablet (<=large), ALWAYS default to inactive for better UX
+                            // This prevents the sidebar from blocking content on mobile
                             if (breakpoints.active('<=large')) {
-                                if (sidebarState === 'active') {
-                                    $sidebar.removeClass('inactive');
-                                } else {
-                                    // Default to inactive on small screens
-                                    $sidebar.addClass('inactive');
-                                }
+                                // Always start inactive on mobile, ignore localStorage
+                                $sidebar.addClass('inactive');
                             } else {
                                 // On desktop (>large), respect user preference or default to active
                                 if (sidebarState === 'inactive') {
@@ -78,9 +87,9 @@ function loadComponent(elementId, filePath) {
         });
 }
 
-// Load components
+// Load components when DOM is ready
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('DOM loaded, loading components...');
+    console.log('DOM loaded, initializing components...');
 
     const isInSubfolder = window.location.pathname.includes('/posts/');
     const basePath = isInSubfolder ? '../' : '';

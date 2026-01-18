@@ -2,6 +2,15 @@
 <html>
 
 <head>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-VS899CXMD5"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+		gtag('config', 'G-VS899CXMD5');
+	</script>
+
 	<title>All Posts - Tushar Gupta's Blog</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
@@ -30,7 +39,7 @@
 					<!-- Filter Buttons -->
 					<div class="box">
 						<h4>Filter by Category:</h4>
-						<ul class="actions">
+						<ul class="actions" style="flex-wrap: wrap;">
 							<li><button class="button small" onclick="filterPosts('all')">All</button></li>
 							<li><button class="button small" onclick="filterPosts('technical-writing')">Technical
 									Writing</button></li>
