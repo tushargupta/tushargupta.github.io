@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Disallow admin and system directories
+Disallow: /Archive/
+Disallow: /Port/
+Disallow: /.git/
+
+# Allow all content
+Allow: /posts/
+Allow: /images/
+Allow: /assets/
+
+# Sitemap location
+Sitemap: https://tushargupta.github.io/sitemap.xml
