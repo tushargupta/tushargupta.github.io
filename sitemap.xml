@@ -25,6 +25,12 @@
   
   <!-- Blog Posts -->
   <url>
+    <loc>https://tushargupta.github.io/posts/2026/car-outlive-software.html</loc>
+    <lastmod>2026-01-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://tushargupta.github.io/posts/real-cost-of-convenience.html</loc>
     <lastmod>2026-01-17</lastmod>
     <changefreq>monthly</changefreq>

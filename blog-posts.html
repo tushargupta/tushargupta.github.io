@@ -52,6 +52,20 @@
 
 					<!-- Posts Grid -->
 					<div class="posts" id="posts-container">
+						<article class="post-item" data-category="technology" data-date="2026-01-20">
+							<a href="posts/2026/car-outlive-software.html" class="image"><img
+									src="images/2026/the_car_that_will_outlive_its_software.png" alt="" /></a>
+							<h3><a href="posts/2026/car-outlive-software.html">The Car That Will Outlive Its
+									Software</a></h3>
+							<p><em>January 21, 2026 | Technology</em></p>
+							<p>The car doesn't feel old. It starts without complaint. The engine note hasn't changed.
+								Then, one day, you plug in your phone. The screen takes a second longer than usual. Maps
+								loads, but hesitates. Because the car is supposed to last.</p>
+							<ul class="actions">
+								<li><a href="posts/2026/car-outlive-software.html" class="button">Read More</a></li>
+							</ul>
+						</article>
+
 						<article class="post-item" data-category="technology" data-date="2026-01-17">
 							<a href="posts/real-cost-of-convenience.html" class="image"><img
 									src="images/the_real_cost.png" alt="" /></a>
@@ -218,6 +232,12 @@
 						</article>
 					</div>
 
+					<!-- Pagination Controls -->
+					<div id="pagination-controls" class="box"
+						style="text-align: center; margin-top: 2em; display: none;">
+						<!-- Controls will be injected here by JS -->
+					</div>
+
 				</section>
 
 			</div>
@@ -236,15 +256,105 @@
 	<script src="assets/js/main.js"></script>
 	<script src="assets/js/components.js"></script>
 	<script>
+		// Pagination State
+		const postsPerPage = 6;
+		let currentPage = 1;
+		let currentCategory = 'all';
+
+		// Initialize
+		document.addEventListener('DOMContentLoaded', () => {
+			renderPosts();
+		});
+
 		function filterPosts(category) {
-			const posts = document.querySelectorAll('.post-item');
-			posts.forEach(post => {
-				if (category === 'all' || post.dataset.category === category) {
-					post.style.display = 'block';
+			currentCategory = category;
+			currentPage = 1; // Reset to first page on filter change
+			renderPosts();
+
+			// Update active button state (optional aesthetic)
+			const buttons = document.querySelectorAll('.box .button');
+			buttons.forEach(btn => {
+				if (btn.innerText.toLowerCase() === category || (category === 'all' && btn.innerText === 'All')) {
+					btn.classList.add('primary');
 				} else {
-					post.style.display = 'none';
+					btn.classList.remove('primary');
 				}
 			});
+		}
+
+		function renderPosts() {
+			const allPosts = document.querySelectorAll('.post-item');
+			let visiblePosts = [];
+
+			// 1. Filter posts
+			allPosts.forEach(post => {
+				if (currentCategory === 'all' || post.dataset.category === currentCategory) {
+					visiblePosts.push(post);
+				}
+				post.style.display = 'none'; // Hide all initially
+			});
+
+			// 2. Calculate Paging
+			const totalPages = Math.ceil(visiblePosts.length / postsPerPage);
+
+			// Ensure currentPage is valid
+			if (currentPage > totalPages) currentPage = totalPages;
+			if (currentPage < 1) currentPage = 1;
+
+			const startIndex = (currentPage - 1) * postsPerPage;
+			const endIndex = startIndex + postsPerPage;
+
+			// 3. Show posts for current page
+			const postsToShow = visiblePosts.slice(startIndex, endIndex);
+			postsToShow.forEach(post => {
+				post.style.display = 'block';
+			});
+
+			// 4. Render Pagination Controls
+			renderPaginationControls(totalPages, visiblePosts.length);
+		}
+
+		function renderPaginationControls(totalPages, totalItems) {
+			const container = document.getElementById('pagination-controls');
+
+			if (totalItems <= postsPerPage) {
+				container.style.display = 'none';
+				return;
+			}
+
+			container.style.display = 'block';
+			container.innerHTML = '';
+
+			// Prev Button
+			const prevBtn = document.createElement('button');
+			prevBtn.className = 'button small';
+			prevBtn.innerText = '← Previous';
+			prevBtn.onclick = () => changePage(-1);
+			if (currentPage === 1) prevBtn.disabled = true;
+
+			// Page Info
+			const info = document.createElement('span');
+			info.style.margin = '0 15px';
+			info.style.fontWeight = 'bold';
+			info.innerText = `Page ${currentPage} of ${totalPages}`;
+
+			// Next Button
+			const nextBtn = document.createElement('button');
+			nextBtn.className = 'button small';
+			nextBtn.innerText = 'Next →';
+			nextBtn.onclick = () => changePage(1);
+			if (currentPage === totalPages) nextBtn.disabled = true;
+
+			container.appendChild(prevBtn);
+			container.appendChild(info);
+			container.appendChild(nextBtn);
+		}
+
+		function changePage(delta) {
+			currentPage += delta;
+			renderPosts();
+			// Smooth scroll to top of posts container
+			document.querySelector('.posts').scrollIntoView({ behavior: 'smooth' });
 		}
 	</script>
 
