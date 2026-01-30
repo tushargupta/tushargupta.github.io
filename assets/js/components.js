@@ -1,7 +1,7 @@
 // Simple component loader
 function loadComponent(elementId, filePath) {
 	console.log('Loading component:', elementId, filePath);
-	fetch(filePath)
+	fetch(filePath + '?v=' + new Date().getTime())
 		.then(response => {
 			console.log('Response status:', response.status);
 			// Check if the response is successful (status 200-299)
