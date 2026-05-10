@@ -6,7 +6,7 @@ This blog uses a component-based system to make creating new pages easy. Common 
 
 1. **Copy the template:**
    ```
-   Copy posts/template.html to posts/your-new-post.html
+   Copy posts/template.html to posts/[YEAR]/your-new-post.html
    ```
 
 2. **Replace the placeholders:**
@@ -21,6 +21,7 @@ This blog uses a component-based system to make creating new pages easy. Common 
    - Update `blog-posts.html` - Add your article at the top
    - Update `includes/sidebar.html` - Add to Recent Posts (keep only 3 most recent)
    - Update `index.html` - Add to Latest Posts (keep only 4 most recent)
+   - Update `sitemap.xml` - Add the new post URL to ensure it is indexed by search engines
 
 ## Component System
 
@@ -62,7 +63,8 @@ tushargupta.github.io/
 │   └── sidebar.html       # Sidebar navigation
 ├── posts/                  # Individual blog posts
 │   ├── template.html      # Template for new posts
-│   └── *.html             # Your blog posts
+│   ├── 2025/              # Blog posts from 2025
+│   └── 2026/              # Blog posts from 2026
 ├── images/                 # Images
 └── assets/                 # CSS, JS, fonts
     └── js/
@@ -90,7 +92,9 @@ Edit `includes/header.html` - Update the social media URLs
 
 ## Tips
 
-- Always use relative paths for images: `../images/filename.png` (from posts/)
+- **Folder Structure**: All new posts should be placed in their respective year folder (e.g., `posts/2026/`).
+- **Template Paths**: The `template.html` is pre-configured with `../../` paths for this year-based folder structure. If you place a file directly in `posts/`, you will need to change paths to `../`.
+- Always use relative paths for images: `../../images/[YEAR]/filename.png`
 - Keep sidebar Recent Posts to 3 items maximum
 - Keep index.html Latest Posts to 4 items maximum
 - Use descriptive post IDs: `real-cost-of-convenience` not `post1`
