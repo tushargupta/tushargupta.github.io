@@ -23,6 +23,38 @@ This blog uses a component-based system to make creating new pages easy. Common 
    - Update `index.html` - Add to Latest Posts (keep only 4 most recent)
    - Update `sitemap.xml` - Add the new post URL to ensure it is indexed by search engines
 
+## Wikipedia-Style Citations & References
+
+When an article includes source links or external references, format them using Wikipedia-style inline numerical citations (`[1]`, `[2]`, etc.) pointing to a **References** section at the bottom of the article.
+
+### 1. In-Text Inline Citations
+Use superscript link tags immediately following the statement or sentence being supported:
+
+```html
+<p>Studies show most popular plans give only 4 to 6 percent return.<sup><a href="#ref-1">[1]</a></sup></p>
+
+<!-- For multiple consecutive citations: -->
+<p>Forbes Advisor states after 3 years you get 30 percent back.<sup><a href="#ref-2">[2]</a></sup><sup><a href="#ref-3">[3]</a></sup></p>
+```
+
+### 2. References Section at the Bottom
+At the end of the article content (just before `<hr class="major" />`), add a `References` ordered list:
+
+```html
+<hr class="major" />
+
+<h3>References</h3>
+<ol class="references" style="font-size: 0.9em; line-height: 1.6;">
+  <li id="ref-1"><a href="https://example.com/article-url" target="_blank" rel="noopener">Publisher Name: Article Title or Description</a></li>
+  <li id="ref-2"><a href="https://example.com/another-url" target="_blank" rel="noopener">Publisher Name: Article Title</a></li>
+</ol>
+```
+
+### Citation Guidelines:
+- **Sequential IDs**: Assign number IDs (`ref-1`, `ref-2`, `ref-3`...) in the order they appear in the text.
+- **Anchor Matching**: Ensure `href="#ref-N"` in the superscript matches `id="ref-N"` in the `<ol>` list item.
+- **External Links**: Always use `target="_blank" rel="noopener"` for external reference links.
+
 ## Component System
 
 The blog automatically loads these components on every page:
